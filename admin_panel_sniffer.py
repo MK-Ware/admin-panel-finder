@@ -43,7 +43,7 @@ def saveResults(file_name, found_pages, progress=0):
             print(page, file=f)
         print("total progress: %d\n______________________________________________" % progress, file=f)
 
-def main(domain, progress=0 strict=False, save = True, visible=True, wordlist_file="admin_login.txt"):
+def main(domain, progress=0, strict=False, save = True, visible=True, wordlist_file="admin_login.txt"):
     print("working... press ctrl+c at any point to abort...")
     resp_codes = {403 : "request forbidden", 401 : "authentication required"}#HTTP response codes
     found = []#list to hold the results we find
