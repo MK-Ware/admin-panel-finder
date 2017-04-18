@@ -97,7 +97,7 @@ def main(domain, progress=0, strict=False, save = True, visible=True, wordlist_f
 
             print("results saved to admin_sniffer_results.txt...")
 
-        print("found the following results: " + "  ".join(found))
+        print("found the following results: " + "  ".join(found) + " total progress: %s" % progress)
 
     else:
         print("could not find any panel pages... Make sure you're connected to the internet \n or try a different wordlist")
