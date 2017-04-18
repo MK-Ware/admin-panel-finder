@@ -84,12 +84,12 @@ def main(domain, strict=False, save = True, visible=True, wordlist_file="admin_l
         print("could not find any panel pages... Make sure you're connected to the internet \n or try a different wordlist")
 
 if __name__ == "__main__":
-    print("+++++++++++++++++++admin_sniffer by MCoury+++++++++++++++++++")
+    print("+++++++++++++++++++admin_panel_sniffer by MCoury+++++++++++++++++++")
     print("                should work with python 2 or 3")
     print("           Author not responsible for malicious use!")
     print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
     if argv[1].upper() in ("HELP", "H"):
-        print("python admin_sniffer.py domain strict save visible wordlist\n\ndomain: the target domain\nstrict: optional, default False.. if True, HTTP codes that correspond to forbidden or authentication required will be ignored\nsave: optional, default True.. if True results will be saved to a txt file\nvisible: optional, default True.. if True each link will be shown as it's being tested\nwordlist: optional, default included wordlist.. wordlist file to be used")
+        print("python admin_panel_sniffer.py domain strict save visible wordlist\n\ndomain: the target domain\nstrict: optional, default False.. if True, HTTP codes that correspond to forbidden or authentication required will be ignored\nsave: optional, default True.. if True results will be saved to a txt file\nvisible: optional, default True.. if True each link will be shown as it's being tested\nwordlist: optional, default included wordlist.. wordlist file to be used")
 
     else:
         defs = ["pad", "pad", "False", "True", "True", "admin_login.txt"]
