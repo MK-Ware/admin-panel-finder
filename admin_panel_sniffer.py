@@ -88,7 +88,7 @@ def main(domain, progress=0, strict=False, save = True, visible=True, wordlist_f
                 break
             
             except Exception as e2:
-                print("an exception occured: {}".format(e2))
+                print("an exception occured when trying {}... {}".format(site, e2))
                 continue
             progress += 1
             
