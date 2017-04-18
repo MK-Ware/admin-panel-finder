@@ -77,7 +77,7 @@ def main(domain, strict=False, save = True, visible=True, wordlist_file="admin_l
                     if visible:
                         print("%s not found..." % site)
                 else:
-                    print("potential positive.. %s" % (resp_codes[c]))
+                    print("%s potential positive.. %s" % (site, resp_codes[c]))
                     if not strict:
                         found.append(site)
 
