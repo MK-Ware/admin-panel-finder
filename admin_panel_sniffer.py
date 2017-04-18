@@ -100,7 +100,7 @@ def main(domain, progress=0, strict=False, save = True, visible=True, wordlist_f
         print("found the following results: " + "  ".join(found) + " total progress: %s" % progress)
 
     else:
-        print("could not find any panel pages... Make sure you're connected to the internet \n or try a different wordlist")
+        print("could not find any panel pages... Make sure you're connected to the internet \n or try a different wordlist. total progress: %s" % progress)
 
 def getRobotsFile(domain):
     print("Attempting to get robots.txt file...")
