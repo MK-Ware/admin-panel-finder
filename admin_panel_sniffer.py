@@ -14,8 +14,8 @@ except ImportError:#python 2
 
 #custom header to avoid being blocked by the website
 custom_headers = {"User-Agent" : "Mozilla/5.0 (Windows NT {}; rv:{}.0) Gecko/20100101 Firefox/{}.0".format(random.randint(7,11),
-                                                                                                    random.randint(40,50),
-                                                                                                    random.randint(35,50))}
+                                                                                                           random.randint(40,50),
+                                                                                                           random.randint(35,50))}
 
 def adjustDomainName(domain):#correct domain name for urllib
     if domain.startswith("www."):
@@ -34,16 +34,16 @@ def loadWordList(wordlist_file):#load pages to check from dictionary
     except FileNotFoundError:
         sys.exit("Couldn't find wordlist file!")
 
-def saveResults(file_name, found_pages):
+def saveResults(file_name, found_pages, progress=0):
     now = dt.now()
     with open("admin_sniffer_results.txt", "a") as f:
         stamp = "%d-%d-%d %d: %d: %d" % (now.year, now.month, now.day, now.hour, now.minute, now.second)
         print(stamp, file=f)
         for page in found_pages:
             print(page, file=f)
-        print("______________________________________________", file=f)
+        print("total progress: %d\n______________________________________________" % progress, file=f)
 
-def main(domain, strict=False, save = True, visible=True, wordlist_file="admin_login.txt"):
+def main(domain, progress=0 strict=False, save = True, visible=True, wordlist_file="admin_login.txt"):
     print("working... press ctrl+c at any point to abort...")
     resp_codes = {403 : "request forbidden", 401 : "authentication required"}#HTTP response codes
     found = []#list to hold the results we find
@@ -53,7 +53,7 @@ def main(domain, strict=False, save = True, visible=True, wordlist_file="admin_l
     attempts = loadWordList(wordlist_file)
     print("crawling...")
     
-    for link in attempts:#loop over every page in the wordlist file
+    for link in attempts[progress:]:#loop over every page in the wordlist file
         try:
             site = domain + "/" + link
 
@@ -84,6 +84,7 @@ def main(domain, strict=False, save = True, visible=True, wordlist_file="admin_l
             except URLError:
                 print("invalid link or no internet connection!")
                 break
+            progress += 1
             
         except KeyboardInterrupt:#make sure we don't lose everything should the user get bored
             print()
@@ -116,7 +117,7 @@ def getRobotsFile(domain):
                 found.append(panel_page)
         if found:
             print("admin panels found... Saving results to file...")
-            saveResults("admin_sniffer_results.txt", found)
+            saveResults("admin_sniffer_results.txt", found, 0)
             print("done...")
         else:
             print("could not find any panel pages in the robots file...")
@@ -136,14 +137,15 @@ if __name__ == "__main__":
         getRobotsFile(argv[1])
 
     else:
-        defs = ["pad", "pad", "False", "True", "True", "admin_login.txt"]
+        defs = ["pad", "pad", 0, "False", "True", "True", "admin_login.txt"]
         try:
             argv.extend(defs[len(argv):])
         except:
             pass
         target_domain = argv[1]
-        mode = eval(argv[2])
-        save = eval(argv[3])
-        visible = eval(argv[4])
-        wordlist = argv[5]
-        main(target_domain, mode, save, visible, wordlist)
+        prog = int(argv[2])
+        mode = eval(argv[3])
+        save = eval(argv[4])
+        visible = eval(argv[5])
+        wordlist = argv[6]
+        main(target_domain, prog, mode, save, visible, wordlist)
