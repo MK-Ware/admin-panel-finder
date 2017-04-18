@@ -86,6 +86,10 @@ def main(domain, progress=0, strict=False, save = True, visible=True, wordlist_f
             except URLError:
                 print("invalid link or no internet connection!")
                 break
+            
+            except Exception as e2:
+                print("an exception occured: {}".format(e2))
+                continue
             progress += 1
             
         except KeyboardInterrupt:#make sure we don't lose everything should the user get bored
