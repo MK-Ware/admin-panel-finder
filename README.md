@@ -1,4 +1,4 @@
-# admin_sniffer
+# admin_panel_sniffer
 A powerful admin login page finder in python.. Should work with both python 2 and 3.
 
 # Use:
