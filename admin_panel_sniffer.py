@@ -19,7 +19,9 @@ custom_headers = {"User-Agent" : "Mozilla/5.0 (Windows NT {}; rv:{}.0) Gecko/201
 
 def adjustDomainName(domain):#correct domain name for urllib
     if domain.startswith("www."):
-        domain = "http://" + domain[4:]
+        domain = domain[4:]
+    if not domain.startswith("http"):
+        domain = "http://" + domain
     if domain.endswith("/"):
         domain = domain[:-1]
     return domain
