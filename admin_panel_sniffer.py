@@ -26,13 +26,16 @@ def adjustDomainName(domain):#correct domain name for urllib
         domain = domain[:-1]
     return domain
 
-def loadWordList(wordlist_file):#load pages to check from dictionary
+def loadWordList(wordlist_file, ext):#load pages to check from dictionary
     try:
         with open(wordlist_file) as wlf:
             content = wlf.readlines()
         for i in range(len(content)):
             content[i] = content[i].strip("\n")
-        return content
+        if ext.lower() == "a":
+            return content
+        else:
+            return [element for element in content if element.endswith(ext) or element.endswith("/")]
     except FileNotFoundError:
         sys.exit("Couldn't find wordlist file!")
 
@@ -45,14 +48,14 @@ def saveResults(file_name, found_pages, progress=0):
             print(page, file=f)
         print("total progress: %d\n______________________________________________" % progress, file=f)
 
-def main(domain, progress=0, strict=False, save = True, visible=True, wordlist_file="admin_login.txt"):
+def main(domain, progress=0, ext="a", strict=False, save = True, visible=True, wordlist_file="admin_login.txt"):
     print("working... press ctrl+c at any point to abort...")
     resp_codes = {403 : "request forbidden", 401 : "authentication required"}#HTTP response codes
     found = []#list to hold the results we find
     domain = adjustDomainName(domain)#correct domain name for urllib
 
     print("loading wordlist...")
-    attempts = loadWordList(wordlist_file)
+    attempts = loadWordList(wordlist_file, ext)
     print("crawling...")
     
     for link in attempts[progress:]:#loop over every page in the wordlist file
@@ -131,27 +134,28 @@ def getRobotsFile(domain):
         sys.exit("Could not retrieve robots.txt!")
 
 if __name__ == "__main__":
-    print("+++++++++++++++++++admin_panel_sniffer by MCoury+++++++++++++++++++")
-    print("+                should work with python 2 or 3                   +")
-    print("+           Author not responsible for malicious use!             +")
-    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
+    print("        +++++++++++++++++++admin_panel_sniffer by MCoury+++++++++++++++++++")
+    print("        +                should work with python 2 or 3                   +")
+    print("        +           Author not responsible for malicious use!             +")
+    print("        +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
     if argv[1].upper() in ("HELP", "H"):
-        print("python admin_panel_sniffer.py domain strict save visible wordlist\n\ndomain: the target domain\nstrict: optional, default False.. if True, HTTP codes that correspond to forbidden or authentication required will be ignored\nsave: optional, default True.. if True results will be saved to a txt file\nvisible: optional, default True.. if True each link will be shown as it's being tested\nwordlist: optional, default included wordlist.. wordlist file to be used")
+        print("python admin_panel_sniffer.py domain progress page_extension strict save visible wordlist\n\ndomain: the target domain\nprogress: the index of the page the script reached last run.. The script displays and saves this value in the results file after every run. 0 starts from the beginning\npage_extension: whether the website uses html asp php... default value is 'a' which checks everything\nstrict: optional, default False.. if True, HTTP codes that correspond to forbidden or authentication required will be ignored\nsave: optional, default True.. if True results will be saved to a txt file\nvisible: optional, default True.. if True each link will be shown as it's being tested\nwordlist: optional, default included wordlist.. wordlist file to be used")
         print("or:\npython admin_panel_sniffer.py domain robots to get the robots.txt file that usually contains the admin panel")
 
     elif len(argv) > 2 and argv[2].lower() in ("robots", "bots", "r"):
         getRobotsFile(argv[1])
 
     else:
-        defs = ["pad", "pad", 0, "False", "True", "True", "admin_login.txt"]
+        defs = ["pad", "pad", 0, "a", "False", "True", "True", "admin_login.txt"]
         try:
             argv.extend(defs[len(argv):])
         except:
             pass
         target_domain = argv[1]
         prog = int(argv[2])
-        mode = eval(argv[3])
-        save = eval(argv[4])
-        visible = eval(argv[5])
-        wordlist = argv[6]
-        main(target_domain, prog, mode, save, visible, wordlist)
+        ext = argv[3]
+        mode = eval(argv[4])
+        save = eval(argv[5])
+        visible = eval(argv[6])
+        wordlist = argv[7]
+        main(target_domain, prog, ext, mode, save, visible, wordlist)
