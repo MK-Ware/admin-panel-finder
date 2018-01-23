@@ -174,17 +174,17 @@ if __name__ == "__main__":
 
     try:
         strict_mode = eval(options.strict.title())
-    except TypeError:
+    except:
         strict_mode = False
 
     try:
         save = eval(options.save.title())
-    except TypeError:
+    except:
         save = True
 
     try:
         verbose = eval(options.verbose.title())
-    except TypeError:
+    except:
         verbose = True
 
     if not options.page_ext:
@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
     try:
         robots = eval(options.robots.title())
-    except TypeError:
+    except:
         robots = False
 
     if robots:
