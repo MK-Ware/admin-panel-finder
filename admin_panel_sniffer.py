@@ -26,7 +26,7 @@ def adjustDomainName(domain):#correct domain name for urllib
 
 def loadWordList(wordlist_file, ext):#load pages to check from dictionary
     try:
-        with open(wordlist_file) as wlf:
+        with open(wordlist_file, encoding="utf8") as wlf:
             content = wlf.readlines()
         for i in range(len(content)):
             content[i] = content[i].strip("\n")
@@ -173,17 +173,17 @@ if __name__ == "__main__":
         sys.exit("please enter a target domain:\n\n%s" % parser.usage)
 
     try:
-        strict_mode = eval(options.strict)
+        strict_mode = eval(options.strict.title())
     except TypeError:
         strict_mode = False
 
     try:
-        save = eval(options.save)
+        save = eval(options.save.title())
     except TypeError:
         save = True
 
     try:
-        verbose = eval(options.verbose)
+        verbose = eval(options.verbose.title())
     except TypeError:
         verbose = True
 
@@ -203,7 +203,7 @@ if __name__ == "__main__":
         wordlist = options.wordlist
 
     try:
-        robots = eval(options.robots)
+        robots = eval(options.robots.title())
     except TypeError:
         robots = False
 
